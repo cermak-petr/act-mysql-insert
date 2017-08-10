@@ -1,2 +1,37 @@
 # act-mysql-insert
-Apify act for inserting crawler results into a remote MySQL table
+
+Apify act for inserting crawler results into a remote MySQL table.
+
+This act fetches all results from a specified Apifier crawler execution and inserts them into
+a table in a remote MySQL database.
+
+The act does not store its state, i.e. if it crashes it restarts fetching all URLs.
+Therefore you should only use it for short lists of URLs.
+
+
+**INPUT**
+
+Input is a JSON object with the following properties:
+
+```javascript
+{
+    // crawler executionID
+    "_id": "GsyXdgGDkmy8SYsrx",
+
+    // MySQL connection credentials (in JSON string)
+    "data": "{
+        \"connection\": {
+          \"host\"      : \"host_name\",
+          \"user\"      : \"user_name\",
+          \"password\"  : \"user_password\",
+          \"database\"  : \"database_name\"
+        },
+        \"table\": \"table_name\"
+    }"
+}
+```
+
+__Note that the data attribute is JSON wrapped in string!__
+
+The act can be run with a crawler finish webhook, in such case fill just the contents of data 
+attribute into a crawler finish webhook data.
