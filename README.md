@@ -16,7 +16,7 @@ Input is a JSON object with the following properties:
 ```javascript
 {
     // crawler executionID
-    "_id": "GsyXdgGDkmy8SYsrx",
+    "_id": "your_execution_id",
 
     // MySQL connection credentials (in JSON string)
     "data": "{
