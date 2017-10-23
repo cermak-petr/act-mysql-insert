@@ -66,7 +66,7 @@ Apify.main(async () => {
     
     // get Act input and validate it
     const input = await Apify.getValue('INPUT');
-    const data = input.data ? (typeof input.data === 'string' ? JSON.parse(input.data) : input.data) : {};
+    const data = input.data ? (isString(input.data) ? JSON.parse(input.data) : input.data) : {};
     if(!input._id){
         return console.log('missing "_id" attribute in INPUT');
     }
@@ -103,11 +103,12 @@ Apify.main(async () => {
         
         // loop through pages of results and insert them to MySQL
         const limit = 200;
-        let total = null, offset = 0;
-        while(total === null || offset + limit < total){
+        let total = -1, offset = 0;
+        while(total === -1 || offset + limit < total){
             const lastResults = await Apify.client.crawlers.getExecutionResults({limit: limit, offset: offset});
             await processResults(poolQuery, lastResults);
             total = lastResults.total;
+            offset += limit;
         }
         
         // disconnect from MySQL
