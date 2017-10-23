@@ -18,20 +18,18 @@ Input is a JSON object with the following properties:
     // crawler executionID
     "_id": "your_execution_id",
 
-    // MySQL connection credentials (in JSON string)
+    // MySQL connection credentials
     "data": "{
-        \"connection\": {
-          \"host\"      : \"host_name\",
-          \"user\"      : \"user_name\",
-          \"password\"  : \"user_password\",
-          \"database\"  : \"database_name\"
+        "connection": {
+          "host"      : "host_name",
+          "user"      : "user_name",
+          "password"  : "user_password",
+          "database"  : "database_name"
         },
-        \"table\": \"table_name\"
+        "table": "table_name"
     }"
 }
 ```
 
-__Note that the data attribute is JSON wrapped in string!__
-
-The act can be run with a crawler finish webhook, in such case fill just the contents of data 
-attribute into a crawler finish webhook data.
+__The act can be run with a crawler finish webhook, in such case fill just the contents of data 
+attribute into a crawler finish webhook data.__
