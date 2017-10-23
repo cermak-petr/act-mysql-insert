@@ -19,7 +19,7 @@ Input is a JSON object with the following properties:
     "_id": "your_execution_id",
 
     // MySQL connection credentials
-    "data": "{
+    "data": {
         "connection": {
           "host"      : "host_name",
           "user"      : "user_name",
@@ -27,7 +27,7 @@ Input is a JSON object with the following properties:
           "database"  : "database_name"
         },
         "table": "table_name"
-    }"
+    }
 }
 ```
 
