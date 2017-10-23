@@ -15,18 +15,10 @@ Input is a JSON object with the following properties:
 
 ```javascript
 {
-    // crawler executionID
-    "_id": "your_execution_id",
-
-    // MySQL connection credentials
+    "_id": "YOUR_EXECUTION_ID",
     "data": {
-        "connection": {
-          "host"      : "host_name",
-          "user"      : "user_name",
-          "password"  : "user_password",
-          "database"  : "database_name"
-        },
-        "table": "table_name"
+        "connection": "MSSQL_CONNECTION_STRING",
+        "table": "DB_TABLE_NAME"
     }
 }
 ```
