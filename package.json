@@ -1,5 +1,5 @@
 { 
-  "name": "json-to-xlsx",
+  "name": "mysql-insert",
   "version": "1.0.0",
   "description": "Apify act for inserting crawler results into a remote MySQL table",
   "main": "main.js",
