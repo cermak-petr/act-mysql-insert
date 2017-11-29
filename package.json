@@ -9,9 +9,9 @@
     "url": "https://github.com/cermak-petr/act-mysql-insert"
   },
   "dependencies": { 
-    "mysql": "latest",
-    "apify": "latest",
-    "bluebird": "latest",
-    "underscore": "latest"
+    "mysql": "^2.15.0",
+    "apify": "^0.4.37",
+    "bluebird": "^3.5.1",
+    "underscore": "^1.8.3"
   }
 }
