@@ -24,8 +24,14 @@ function getAllKeys(results, start, length){
     return Object.keys(keys);
 }
 
+// check if row already exists
+async function checkIfExists(poolQuery, attr, value, table){
+    const select = `SELECT ${attr} FROM ${table} WHERE ${attr} = ${value};`;
+    return await poolQuery(select);
+}
+
 // create SQL insert for a range of objects in an array
-function createInsert(results, start, length, table, staticParam){
+function createInsert(results, start, length, table, staticParam, poolQuery, existsAttr){
     
     // pre-define static SQL insert parts
     const keys = getAllKeys(results, start, length);
@@ -53,7 +59,13 @@ function createInsert(results, start, length, table, staticParam){
     // loop through all results and create SQL insert rows
     const end = Math.min(start + length, results.length);
     for(let i = start; i < end; i++){
-        addValueString(results[i]);
+        const result = results[i];
+        if(existsAttr && result[existsAttr] !== undefined){
+            const exists = await checkIfExists(poolQuery, existsAttr, result[existsAttr], table);
+            if(exists){console.log('object already exists, will not be inserted: ' + JSON.stringify(result));}
+            else{addValueString(result);}
+        }
+        else{addValueString(result);}
     }
     
     // combine the SQL insert
@@ -85,7 +97,7 @@ Apify.main(async () => {
     async function processResults(poolQuery, lastResults){
         const results = _.chain(lastResults.items).pluck('pageFunctionResult').flatten().value();
         for(let i = 0; i < results.length; i += rowSplit){
-            const insert = createInsert(results, i, rowSplit, data.table, data.staticParam);
+            const insert = createInsert(results, i, rowSplit, data.table, data.staticParam, poolQuery, data.existsAttr);
             console.log(insert);
             try{
                 const records = await poolQuery(insert);
