@@ -33,3 +33,18 @@ Input is a JSON object with the following properties:
 
 __The act can be run with a crawler finish webhook, in such case fill just the contents of data 
 attribute into a crawler finish webhook data.__
+
+Alternatively you can directly specify the rows to be inserted (i.e. not fetching them from crawler execution).
+```javascript
+{
+    // rows to be inserted
+    "rows": [
+        {"column_1": "value_1", "column_2": "value_2"},
+        {"column_1": "value_3", "column_2": "value_4"},
+        ...
+    ],
+
+    // PostgreSQL connection credentials
+    "data": "connection_credentials"
+}
+```
