@@ -44,7 +44,7 @@ Alternatively you can directly specify the rows to be inserted (i.e. not fetchin
         ...
     ],
 
-    // PostgreSQL connection credentials
+    // MySQL connection credentials
     "data": "connection_credentials"
 }
 ```
