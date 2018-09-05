@@ -79,8 +79,8 @@ Apify.main(async () => {
     // get Act input and validate it
     const input = await Apify.getValue('INPUT');
     const data = input.data ? (isString(input.data) ? JSON.parse(input.data) : input.data) : {};
-    if(!input._id){
-        return console.log('missing "_id" attribute in INPUT');
+    if(!input._id && !input.rows){
+        return console.log('missing "_id" or "rows" attribute in INPUT');
     }
     if(!data.connection){
         return console.log('missing "connection" attribute in INPUT.data');
@@ -94,8 +94,7 @@ Apify.main(async () => {
     Apify.client.setOptions({executionId: input._id});
     
     // insert all results to MySQL
-    async function processResults(poolQuery, lastResults){
-        const results = _.chain(lastResults.items).pluck('pageFunctionResult').flatten().value();
+    async function processResults(poolQuery, results){
         for(let i = 0; i < results.length; i += rowSplit){
             const insert = createInsert(results, i, rowSplit, data.table, data.staticParam, poolQuery, data.existsAttr);
             console.log(insert);
@@ -114,15 +113,19 @@ Apify.main(async () => {
         const poolEnd = Promise.promisify(pool.end, {context: pool});
         
         // loop through pages of results and insert them to MySQL
-        const limit = 200;
-        let total = -1, offset = 0;
-        while(total === -1 || offset + limit < total){
-            const lastResults = await Apify.client.crawlers.getExecutionResults({limit: limit, offset: offset});
-            await processResults(poolQuery, lastResults);
-            total = lastResults.total;
-            offset += limit;
+        if(input._id){
+            const limit = 200;
+            let total = -1, offset = 0;
+            while(total === -1 || offset + limit < total){
+                const lastResults = await Apify.client.crawlers.getExecutionResults({limit: limit, offset: offset});
+                const results = _.chain(lastResults.items).pluck('pageFunctionResult').flatten().value();
+                await processResults(poolQuery, results);
+                total = lastResults.total;
+                offset += limit;
+            }
         }
-        
+        else{await processResults(poolQuery, input.rows);}
+     
         // disconnect from MySQL
         await poolEnd();
     }
