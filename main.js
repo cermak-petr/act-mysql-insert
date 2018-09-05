@@ -24,6 +24,22 @@ function getAllKeys(results, start, length){
     return Object.keys(keys);
 }
 
+// iterate items from dataset
+const loadItems = async (datasetId, process, offset) => {  
+    const limit = 100;
+    if(!offset){offset = 0;}
+    console.log('starting to load from dataset');
+    const newItems = await Apify.client.datasets.getItems({
+        datasetId, 
+        offset,
+        limit
+    });
+    if(newItems && newItems.items && newItems.items.length > 0){
+        await process(newItems.items);
+        await loadItems(datasetId, process, offset + limit);
+    }
+};
+
 // check if row already exists
 async function checkIfExists(poolQuery, attr, value, table){
     const select = `SELECT ${attr} FROM ${table} WHERE ${attr} = ${value};`;
@@ -79,7 +95,7 @@ Apify.main(async () => {
     // get Act input and validate it
     const input = await Apify.getValue('INPUT');
     const data = input.data ? (isString(input.data) ? JSON.parse(input.data) : input.data) : {};
-    if(!input._id && !input.rows){
+    if(!input._id && !input.rows && !input.datasetId){
         return console.log('missing "_id" or "rows" attribute in INPUT');
     }
     if(!data.connection){
@@ -123,6 +139,11 @@ Apify.main(async () => {
                 total = lastResults.total;
                 offset += limit;
             }
+        }
+        else if(input.datasetId){
+            await loadItems(input.datasetId, async(results) => {
+                await processResults(poolQuery, results);
+            });
         }
         else{await processResults(poolQuery, input.rows);}
      
