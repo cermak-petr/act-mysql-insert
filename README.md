@@ -34,6 +34,17 @@ Input is a JSON object with the following properties:
 __The act can be run with a crawler finish webhook, in such case fill just the contents of data 
 attribute into a crawler finish webhook data.__
 
+Additionally to crawler results, it is also possible to specify a dataset id, to fetch the result from dataset.
+```javascript
+{
+    // id of dataset to fetch rows from
+    "datasetId": "dataset_id",
+
+    // MySQL connection credentials
+    "data": "connection_credentials"
+}
+```
+
 Alternatively you can directly specify the rows to be inserted (i.e. not fetching them from crawler execution).
 ```javascript
 {
