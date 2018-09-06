@@ -34,7 +34,7 @@ Input is a JSON object with the following properties:
 __The act can be run with a crawler finish webhook, in such case fill just the contents of data 
 attribute into a crawler finish webhook data.__
 
-Additionally to crawler results, it is also possible to specify a dataset id, to fetch the result from dataset.
+Additionally to crawler results, it is also possible to specify a dataset id, to fetch the result from a dataset.
 ```javascript
 {
     // id of dataset to fetch rows from
