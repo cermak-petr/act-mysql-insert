@@ -47,7 +47,7 @@ async function checkIfExists(poolQuery, attr, value, table){
 }
 
 // create SQL insert for a range of objects in an array
-function createInsert(results, start, length, table, staticParam, poolQuery, existsAttr){
+async function createInsert(results, start, length, table, staticParam, poolQuery, existsAttr){
     
     // pre-define static SQL insert parts
     const keys = getAllKeys(results, start, length);
@@ -112,7 +112,7 @@ Apify.main(async () => {
     // insert all results to MySQL
     async function processResults(poolQuery, results){
         for(let i = 0; i < results.length; i += rowSplit){
-            const insert = createInsert(results, i, rowSplit, data.table, data.staticParam, poolQuery, data.existsAttr);
+            const insert = await createInsert(results, i, rowSplit, data.table, data.staticParam, poolQuery, data.existsAttr);
             console.log(insert);
             try{
                 const records = await poolQuery(insert);
