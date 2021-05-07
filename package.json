@@ -20,6 +20,6 @@
     "mysql": "^2.15.0",
     "ping": "^0.2.2",
     "proxy-chain": "^0.3.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.12.1"
   }
 }
