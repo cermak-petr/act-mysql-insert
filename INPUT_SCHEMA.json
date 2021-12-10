@@ -1,0 +1,73 @@
+{
+    "title": "Input schema for the apify_project actor.",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "rows": {
+            "title": "Rows",
+            "description": "Provide the rows to insert",
+            "type": "array",
+            "editor": "json"
+        },
+        "connection": {
+            "title": "Connection information",
+            "description": "Provide the remote MYSQL connection",
+            "type": "object",
+            "default": {},
+            "editor": "json"
+        },
+        "table": {
+            "title": "Table name",
+            "description": "Target table",
+            "type": "string",
+            "editor": "textfield"
+        },
+        "datasetId": {
+            "title": "Dataset",
+            "description": "When not using webhooks, provide the dataset id here",
+            "type": "string",
+            "editor": "textfield"
+        },
+        "staticParam": {
+            "title": "Predefined parameters",
+            "description": "You can provide the shape of values",
+            "type": "object",
+            "editor": "json",
+            "prefill": {}
+        },
+        "existsAttr": {
+            "title": "Attribute check",
+            "description": "Check for the given property existence",
+            "type": "string",
+            "editor": "textfield"
+        },
+        "proxyConfig": {
+            "title": "Proxy config",
+            "description": "Optionally route the connection through the StaticUS3 group",
+            "prefill": {
+                "useApifyProxy": true,
+                "apifyProxyGroups": ["qfCaFFuCodXxAS59E"]
+            },
+            "type": "object",
+            "editor": "proxy"
+        },
+        "rowSplit": {
+            "title": "Row split",
+            "description": "How many rows to batch",
+            "type": "integer",
+            "default": 10,
+            "editor": "number"
+        },
+        "debugLog": {
+            "title": "Debug log",
+            "description": "Enable dumping the contents to the log",
+            "default": false,
+            "type": "boolean",
+            "editor": "checkbox"
+        }
+    },
+    "required": [
+        "table",
+        "connection"
+    ]
+}

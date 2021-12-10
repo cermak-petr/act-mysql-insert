@@ -1,0 +1,9 @@
+{
+    "extends": "@apify",
+    "env": {
+        "node": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2020
+    }
+}
