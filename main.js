@@ -80,8 +80,10 @@ Apify.main(async () => {
                     await processResults(pool, results);
                 },
             });
-        } else if (rows) {
+        } else if (rows?.length) {
             await processResults(pool, rows);
+        } else {
+            log.warning('Doing nothing');
         }
 
         // disconnect from MySQL
