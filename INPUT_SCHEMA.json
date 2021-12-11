@@ -3,41 +3,17 @@
     "type": "object",
     "schemaVersion": 1,
     "properties": {
-        "rows": {
-            "title": "Rows",
-            "description": "Provide the rows to insert",
-            "type": "array",
-            "editor": "json"
-        },
         "connection": {
             "title": "Connection information",
-            "description": "Provide the remote MYSQL connection",
+            "description": "Provide the remote MYSQL connection as an object as state in the documentation",
             "type": "object",
+            "prefill": {},
             "default": {},
             "editor": "json"
         },
         "table": {
             "title": "Table name",
             "description": "Target table",
-            "type": "string",
-            "editor": "textfield"
-        },
-        "datasetId": {
-            "title": "Dataset",
-            "description": "When not using webhooks, provide the dataset id here",
-            "type": "string",
-            "editor": "textfield"
-        },
-        "staticParam": {
-            "title": "Predefined parameters",
-            "description": "You can provide the shape of values",
-            "type": "object",
-            "editor": "json",
-            "prefill": {}
-        },
-        "existsAttr": {
-            "title": "Attribute check",
-            "description": "Check for the given property existence",
             "type": "string",
             "editor": "textfield"
         },
@@ -51,9 +27,37 @@
             "type": "object",
             "editor": "proxy"
         },
+        "rows": {
+            "title": "Rows",
+            "description": "Optionally provide the rows to insert",
+            "type": "array",
+            "prefill": [],
+            "editor": "json",
+            "sectionCaption": "Optional features",
+            "sectionDescription": "Additional parameters that aren't required for the actor to function"
+        },
+        "datasetId": {
+            "title": "Dataset",
+            "description": "When not using webhooks, provide the dataset id here",
+            "type": "string",
+            "editor": "textfield"
+        },
+        "staticParam": {
+            "title": "Predefined parameters",
+            "description": "You can provide the shape of values that should be appended at the end of your INSERT statements",
+            "type": "object",
+            "editor": "json",
+            "prefill": {}
+        },
+        "existsAttr": {
+            "title": "Attribute check",
+            "description": "Check for the given property existence. It will issue a SELECT query before trying to insert",
+            "type": "string",
+            "editor": "textfield"
+        },
         "rowSplit": {
             "title": "Row split",
-            "description": "How many rows to batch",
+            "description": "How many rows to batch. High values might timeout the query",
             "type": "integer",
             "default": 10,
             "editor": "number"
