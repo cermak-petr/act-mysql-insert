@@ -422,7 +422,7 @@ async function createInsert(
                 table,
             );
 
-            if (exists) {
+            if (exists?.[0]?.length) {
                 log.warning(
                     `object already exists, will not be inserted`,
                     result,
